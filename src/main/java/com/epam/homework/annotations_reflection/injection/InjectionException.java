@@ -1,4 +1,4 @@
-package com.epam.homework.annotations_reflection;
+package com.epam.homework.annotations_reflection.injection;
 
 public class InjectionException extends RuntimeException {
 

@@ -1,4 +1,4 @@
-package com.epam.homework.annotations_reflection;
+package com.epam.homework.annotations_reflection.cache;
 
 public interface Cache<Integer, String> {
     void put(Integer k, String v);

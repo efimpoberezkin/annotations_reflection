@@ -1,8 +1,11 @@
 package com.epam.homework.annotations_reflection;
 
-import com.epam.homework.annotations_reflection.caches.CacheA;
-import com.epam.homework.annotations_reflection.caches.CacheB;
-import com.epam.homework.annotations_reflection.caches.CacheC;
+import com.epam.homework.annotations_reflection.cache.Cache;
+import com.epam.homework.annotations_reflection.cache.caches.CacheA;
+import com.epam.homework.annotations_reflection.cache.caches.CacheB;
+import com.epam.homework.annotations_reflection.cache.caches.CacheC;
+import com.epam.homework.annotations_reflection.injection.InjectionException;
+import com.epam.homework.annotations_reflection.injection.Injector;
 
 public class Test {
 

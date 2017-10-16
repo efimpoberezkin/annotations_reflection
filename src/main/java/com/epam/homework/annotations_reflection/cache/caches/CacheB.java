@@ -1,7 +1,7 @@
-package com.epam.homework.annotations_reflection.caches;
+package com.epam.homework.annotations_reflection.cache.caches;
 
-import com.epam.homework.annotations_reflection.Cache;
-import com.epam.homework.annotations_reflection.CacheDeclaration;
+import com.epam.homework.annotations_reflection.cache.Cache;
+import com.epam.homework.annotations_reflection.cache.CacheDeclaration;
 
 import java.util.HashMap;
 import java.util.Map;

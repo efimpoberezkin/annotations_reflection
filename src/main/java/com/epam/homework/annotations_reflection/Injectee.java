@@ -1,5 +1,8 @@
 package com.epam.homework.annotations_reflection;
 
+import com.epam.homework.annotations_reflection.cache.Cache;
+import com.epam.homework.annotations_reflection.cache.InjectCache;
+
 public class Injectee extends BasicInjectee {
 
     @InjectCache(name = "B")

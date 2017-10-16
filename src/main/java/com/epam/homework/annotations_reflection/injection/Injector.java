@@ -1,6 +1,9 @@
-package com.epam.homework.annotations_reflection;
+package com.epam.homework.annotations_reflection.injection;
 
-import com.epam.homework.annotations_reflection.caches.CachesPackageAnnotation;
+import com.epam.homework.annotations_reflection.cache.Cache;
+import com.epam.homework.annotations_reflection.cache.CacheDeclaration;
+import com.epam.homework.annotations_reflection.cache.InjectCache;
+import com.epam.homework.annotations_reflection.cache.caches.CachesPackageAnnotation;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -10,7 +13,7 @@ import java.util.Set;
 
 public class Injector {
 
-    static void inject(Injectable injectee) throws InjectionException {
+    public static void inject(Injectable injectee) throws InjectionException {
 
         Package[] packages = Package.getPackages();
         Class[] implementationsOfCache = new Class[]{};
