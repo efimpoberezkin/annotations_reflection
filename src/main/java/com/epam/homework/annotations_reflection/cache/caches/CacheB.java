@@ -23,14 +23,17 @@ public class CacheB<Integer, String> implements Cache<Integer, String> {
         return instance;
     }
 
+    @Override
     public void put(Integer k, String v) {
         map.put(k, v);
     }
 
+    @Override
     public String get(Integer k) {
         return map.get(k);
     }
 
+    @Override
     public boolean containsKey(Integer k) {
         return map.containsKey(k);
     }
