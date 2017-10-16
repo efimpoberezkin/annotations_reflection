@@ -1,11 +1,12 @@
 package com.epam.homework.annotations_reflection;
 
 import com.epam.homework.annotations_reflection.cache.Cache;
+import com.epam.homework.annotations_reflection.cache.CacheNamesContainer;
 import com.epam.homework.annotations_reflection.cache.InjectCache;
 
 public class Injectee extends BasicInjectee {
 
-    @InjectCache(name = "B")
+    @InjectCache(name = CacheNamesContainer.CACHE_B_NAME)
     public Cache cache2;
 
     public int dummyInt;

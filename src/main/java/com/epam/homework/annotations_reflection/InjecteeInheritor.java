@@ -1,14 +1,15 @@
 package com.epam.homework.annotations_reflection;
 
 import com.epam.homework.annotations_reflection.cache.Cache;
+import com.epam.homework.annotations_reflection.cache.CacheNamesContainer;
 import com.epam.homework.annotations_reflection.cache.InjectCache;
 
 public class InjecteeInheritor extends Injectee {
 
-    @InjectCache(name = "A")
+    @InjectCache(name = CacheNamesContainer.CACHE_A_NAME)
     public Cache cache3;
 
-    @InjectCache(name = "C")
+    @InjectCache(name = CacheNamesContainer.CACHE_C_NAME)
     private Cache cache4;
 
     private String dummyStr;
