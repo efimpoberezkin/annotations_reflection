@@ -2,7 +2,7 @@ package com.epam.homework.annotations_reflection;
 
 import com.epam.homework.annotations_reflection.cache.Cache;
 import com.epam.homework.annotations_reflection.cache.CacheNamesContainer;
-import com.epam.homework.annotations_reflection.cache.InjectCache;
+import com.epam.homework.annotations_reflection.cache.injection.InjectCache;
 
 public class Injectee extends BasicInjectee {
 

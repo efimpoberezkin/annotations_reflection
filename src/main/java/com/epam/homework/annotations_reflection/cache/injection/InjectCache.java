@@ -1,4 +1,4 @@
-package com.epam.homework.annotations_reflection.cache;
+package com.epam.homework.annotations_reflection.cache.injection;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

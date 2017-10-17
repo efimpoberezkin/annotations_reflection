@@ -2,7 +2,6 @@ package com.epam.homework.annotations_reflection.cache.injection;
 
 import com.epam.homework.annotations_reflection.cache.Cache;
 import com.epam.homework.annotations_reflection.cache.CacheDeclaration;
-import com.epam.homework.annotations_reflection.cache.InjectCache;
 import com.epam.homework.annotations_reflection.reflection.ClassFinder;
 
 import java.lang.reflect.Constructor;
