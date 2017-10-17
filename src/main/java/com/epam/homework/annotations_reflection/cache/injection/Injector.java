@@ -37,16 +37,13 @@ public class Injector {
                     }
                 }
                 try {
-                    Constructor cacheConstructor = requiredCacheClass.getDeclaredConstructor();
-                    cacheConstructor.setAccessible(true);
-                    Cache cache = (Cache) cacheConstructor.newInstance();
+                    Cache cache = (Cache) requiredCacheClass.newInstance();
                     CacheFiller.fillCache(cache);
                     field.setAccessible(true);
                     field.set(injectee, cache);
                 } catch (NullPointerException e) {
                     throw new NoCacheFoundException("Cache " + fieldAnnotation.name() + " not found", e);
-                } catch (IllegalAccessException | NoSuchMethodException
-                        | InstantiationException | InvocationTargetException e) {
+                } catch (IllegalAccessException | InstantiationException e) {
                     throw new InjectionException("Can not inject cache " + requiredCacheClass.getName(), e);
                 }
             }
