@@ -11,12 +11,13 @@ import java.util.*;
 
 public class Injector {
 
+    private static final String CACHES_PACKAGE = "com.epam.homework.annotations_reflection.cache.caches";
+
     public static void inject(Injectable injectee) throws InjectionException, NoCacheFoundException {
 
-        List<Class> implementationsOfCache = ClassFinder.find("com.epam.homework.annotations_reflection.cache.caches");
+        List<Class> implementationsOfCache = ClassFinder.find(CACHES_PACKAGE);
+        List<Field> fields = findFields(injectee.getClass());
 
-        Set<Field> fields = new HashSet(Arrays.asList(injectee.getClass().getFields()));
-        fields.addAll(Arrays.asList(injectee.getClass().getDeclaredFields()));
         for (Field field : fields) {
             if (field.isAnnotationPresent(InjectCache.class)) {
                 InjectCache fieldAnnotation = field.getAnnotation(InjectCache.class);
@@ -41,5 +42,17 @@ public class Injector {
                 }
             }
         }
+    }
+
+    private static List<Field> findFields(Class type) {
+        List<Field> result = new ArrayList<>();
+
+        Class cl = type;
+        while (cl != null && cl != Object.class) {
+            result.addAll(Arrays.asList(cl.getDeclaredFields()));
+            cl = cl.getSuperclass();
+        }
+
+        return result;
     }
 }

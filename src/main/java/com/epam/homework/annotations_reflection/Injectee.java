@@ -3,25 +3,32 @@ package com.epam.homework.annotations_reflection;
 import com.epam.homework.annotations_reflection.cache.Cache;
 import com.epam.homework.annotations_reflection.cache.CacheNamesContainer;
 import com.epam.homework.annotations_reflection.cache.injection.InjectCache;
+import com.epam.homework.annotations_reflection.cache.injection.Injectable;
 
-public class Injectee extends BasicInjectee {
+public class Injectee extends BasicInjectee implements Injectable {
 
     @InjectCache(name = CacheNamesContainer.CACHE_B_NAME)
-    public Cache cache2;
+    public Cache cache3;
+
+    @InjectCache(name = CacheNamesContainer.CACHE_C_NAME)
+    private Cache cache4;
 
     public int dummyInt;
 
+    @Override
     public void printFromCachesByKey(int k) {
-        if (cache1 == null) {
-            System.out.println("Cache 1 is not injected");
+        super.printFromCachesByKey(k);
+
+        if (cache3 == null) {
+            System.out.println("Cache 3 is not injected");
         } else {
-            System.out.println("Cache 1 - " + (cache1.containsKey(k) ? cache1.get(k) : ("No entry with key " + k)));
+            System.out.println("Cache 3 - " + (cache3.containsKey(k) ? cache3.get(k) : ("No entry with key " + k)));
         }
 
-        if (cache2 == null) {
-            System.out.println("Cache 2 is not injected");
+        if (cache4 == null) {
+            System.out.println("Cache 4 is not injected");
         } else {
-            System.out.println("Cache 2 - " + (cache2.containsKey(k) ? cache2.get(k) : ("No entry with key " + k)));
+            System.out.println("Cache 4 - " + (cache4.containsKey(k) ? cache4.get(k) : ("No entry with key " + k)));
         }
     }
 }
