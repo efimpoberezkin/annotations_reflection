@@ -1,4 +1,4 @@
-package com.epam.homework.annotations_reflection.injection;
+package com.epam.homework.annotations_reflection.cache.injection;
 
 import com.epam.homework.annotations_reflection.cache.Cache;
 import com.epam.homework.annotations_reflection.cache.CacheDeclaration;

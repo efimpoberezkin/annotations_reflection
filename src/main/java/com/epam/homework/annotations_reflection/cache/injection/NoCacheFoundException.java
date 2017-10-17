@@ -1,4 +1,4 @@
-package com.epam.homework.annotations_reflection.injection;
+package com.epam.homework.annotations_reflection.cache.injection;
 
 public class NoCacheFoundException extends RuntimeException {
 

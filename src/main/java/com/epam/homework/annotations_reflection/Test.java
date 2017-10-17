@@ -4,9 +4,9 @@ import com.epam.homework.annotations_reflection.cache.Cache;
 import com.epam.homework.annotations_reflection.cache.caches.CacheA;
 import com.epam.homework.annotations_reflection.cache.caches.CacheB;
 import com.epam.homework.annotations_reflection.cache.caches.CacheC;
-import com.epam.homework.annotations_reflection.injection.InjectionException;
-import com.epam.homework.annotations_reflection.injection.Injector;
-import com.epam.homework.annotations_reflection.injection.NoCacheFoundException;
+import com.epam.homework.annotations_reflection.cache.injection.InjectionException;
+import com.epam.homework.annotations_reflection.cache.injection.Injector;
+import com.epam.homework.annotations_reflection.cache.injection.NoCacheFoundException;
 
 public class Test {
 
