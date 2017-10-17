@@ -18,10 +18,8 @@ public class Author {
     }
 
     public Author(String name, LocalDate dateOfBirth, LocalDate dateOfDeath, Gender gender) {
-        this.name = name;
-        this.dateOfBirth = dateOfBirth;
+        this(name, dateOfBirth, gender);
         this.dateOfDeath = dateOfDeath;
-        this.gender = gender;
     }
 
     public String getName() {
