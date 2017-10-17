@@ -5,15 +5,17 @@ import com.epam.homework.annotations_reflection.cache.CacheDeclaration;
 import com.epam.homework.annotations_reflection.cache.InjectCache;
 import com.epam.homework.annotations_reflection.cache.caches.CachesPackageAnnotation;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Injector {
 
-    public static void inject(Injectable injectee) throws InjectionException {
+    public static void inject(Injectable injectee) throws InjectionException, NoCacheFoundException {
 
         Package[] packages = Package.getPackages();
         Class[] implementationsOfCache = new Class[]{};
@@ -28,21 +30,25 @@ public class Injector {
         fields.addAll(Arrays.asList(injectee.getClass().getDeclaredFields()));
         for (Field field : fields) {
             if (field.isAnnotationPresent(InjectCache.class)) {
+                InjectCache fieldAnnotation = field.getAnnotation(InjectCache.class);
                 Class requiredCacheClass = null;
                 for (Class cl : implementationsOfCache) {
                     CacheDeclaration clAnnotation = (CacheDeclaration) cl.getAnnotation(CacheDeclaration.class);
-                    InjectCache fieldAnnotation = field.getAnnotation(InjectCache.class);
                     if (fieldAnnotation.name().equals(clAnnotation.name())) {
                         requiredCacheClass = cl;
                     }
                 }
                 try {
-                    Cache cache = (Cache) requiredCacheClass.getDeclaredMethod("getInstance").invoke(null);
+                    Constructor cacheConstructor = requiredCacheClass.getDeclaredConstructor();
+                    cacheConstructor.setAccessible(true);
+                    Cache cache = (Cache) cacheConstructor.newInstance();
                     field.setAccessible(true);
                     field.set(injectee, cache);
+                } catch (NullPointerException e) {
+                    throw new NoCacheFoundException("Cache " + fieldAnnotation.name() + " not found", e);
                 } catch (IllegalAccessException | NoSuchMethodException
-                        | InvocationTargetException | NullPointerException e) {
-                    throw new InjectionException();
+                        | InstantiationException | InvocationTargetException e) {
+                    throw new InjectionException("Can not inject cache " + requiredCacheClass.getName(), e);
                 }
             }
         }

@@ -6,6 +6,7 @@ import com.epam.homework.annotations_reflection.cache.caches.CacheB;
 import com.epam.homework.annotations_reflection.cache.caches.CacheC;
 import com.epam.homework.annotations_reflection.injection.InjectionException;
 import com.epam.homework.annotations_reflection.injection.Injector;
+import com.epam.homework.annotations_reflection.injection.NoCacheFoundException;
 
 public class Test {
 
@@ -63,7 +64,7 @@ public class Test {
         try {
             Injector.inject(injectee);
             System.out.println("Injection successful");
-        } catch (InjectionException e) {
+        } catch (InjectionException | NoCacheFoundException e) {
             System.out.println("Injection failed");
         }
     }

@@ -14,7 +14,15 @@ public class CacheC<Integer, String> implements Cache<Integer, String> {
     private Map<Integer, String> map;
 
     private CacheC() {
-        map = new HashMap<>();
+        if (instance == null) {
+            map = new HashMap<>();
+        } else {
+            map = getInstance().getMap();
+        }
+    }
+
+    private Map<Integer, String> getMap() {
+        return map;
     }
 
     public static CacheC getInstance() {
