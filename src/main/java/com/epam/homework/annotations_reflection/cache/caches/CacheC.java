@@ -10,26 +10,10 @@ import java.util.Map;
 @CacheDeclaration(name = CacheNamesContainer.CACHE_C_NAME)
 public class CacheC<Integer, String> implements Cache<Integer, String> {
 
-    private static CacheC instance;
     private Map<Integer, String> map;
 
-    private CacheC() {
-        if (instance == null) {
-            map = new HashMap<>();
-        } else {
-            map = getInstance().getMap();
-        }
-    }
-
-    private Map<Integer, String> getMap() {
-        return map;
-    }
-
-    public static CacheC getInstance() {
-        if (instance == null) {
-            instance = new CacheC();
-        }
-        return instance;
+    public CacheC() {
+        map = new HashMap<>();
     }
 
     @Override

@@ -1,9 +1,5 @@
 package com.epam.homework.annotations_reflection;
 
-import com.epam.homework.annotations_reflection.cache.Cache;
-import com.epam.homework.annotations_reflection.cache.caches.CacheA;
-import com.epam.homework.annotations_reflection.cache.caches.CacheB;
-import com.epam.homework.annotations_reflection.cache.caches.CacheC;
 import com.epam.homework.annotations_reflection.cache.injection.InjectionException;
 import com.epam.homework.annotations_reflection.cache.injection.Injector;
 import com.epam.homework.annotations_reflection.cache.injection.NoCacheFoundException;
@@ -19,8 +15,6 @@ public class Test {
         Injectee injectee = new Injectee();
         InjecteeInheritor injecteeInheritor = new InjecteeInheritor();
         int key = 1; //for example 1, 2, 3, 4, 5, 6 for tests
-
-        CacheInitializer.initializeCaches();
 
         System.out.println("-- Prior to injecting --");
         testInjectee(injectee, "injectee", key);

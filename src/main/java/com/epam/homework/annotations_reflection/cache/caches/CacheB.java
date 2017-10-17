@@ -10,26 +10,10 @@ import java.util.Map;
 @CacheDeclaration(name = CacheNamesContainer.CACHE_B_NAME)
 public class CacheB<Integer, String> implements Cache<Integer, String> {
 
-    private static CacheB instance;
     private Map<Integer, String> map;
 
-    private CacheB() {
-        if (instance == null) {
-            map = new HashMap<>();
-        } else {
-            map = getInstance().getMap();
-        }
-    }
-
-    private Map<Integer, String> getMap() {
-        return map;
-    }
-
-    public static CacheB getInstance() {
-        if (instance == null) {
-            instance = new CacheB();
-        }
-        return instance;
+    public CacheB() {
+        map = new HashMap<>();
     }
 
     @Override

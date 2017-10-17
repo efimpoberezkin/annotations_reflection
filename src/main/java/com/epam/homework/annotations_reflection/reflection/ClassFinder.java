@@ -11,7 +11,7 @@ public final class ClassFinder {
 
     private final static String CLASS_SUFFIX = ".class";
 
-    public static List<Class> find(String packageName) {
+    public static List<Class> find(String packageName) throws IllegalArgumentException, ClassNotFoundException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         String path = packageName.replace('.', '/');
         Enumeration<URL> resources;
@@ -22,28 +22,26 @@ public final class ClassFinder {
         }
         List<Class> classes = new ArrayList<>();
         while (resources.hasMoreElements()) {
-            File file = new File(resources.nextElement().getFile());
-            classes.addAll(findClasses(file, packageName));
+            File directory = new File(resources.nextElement().getFile());
+            classes.addAll(findClasses(directory, packageName));
         }
         return classes;
     }
 
-    private static List<Class> findClasses(File file, String packageName) {
+    private static List<Class> findClasses(File directory, String packageName) throws ClassNotFoundException {
         List<Class> classes = new ArrayList<>();
-        if (!file.exists()) {
+        if (!directory.exists()) {
             return classes;
         }
-        if (file.isDirectory()) {
-            for (File nestedFile : file.listFiles()) {
-                classes.addAll(findClasses(nestedFile, packageName));
-            }
-        } else if (file.getName().endsWith(CLASS_SUFFIX)) {
-            int endIndex = file.getName().length() - CLASS_SUFFIX.length();
-            String className = file.getName().substring(0, endIndex);
-            String resource = packageName + '.' + className;
-            try {
+        File[] files = directory.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                classes.addAll(findClasses(file, packageName + "." + file.getName()));
+            } else if (file.getName().endsWith(CLASS_SUFFIX)) {
+                int endIndex = file.getName().length() - CLASS_SUFFIX.length();
+                String className = file.getName().substring(0, endIndex);
+                String resource = packageName + '.' + className;
                 classes.add(Class.forName(resource));
-            } catch (ClassNotFoundException ignore) {
             }
         }
         return classes;
