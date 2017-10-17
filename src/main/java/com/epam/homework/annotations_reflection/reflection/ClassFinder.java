@@ -35,7 +35,7 @@ public final class ClassFinder {
         }
         if (file.isDirectory()) {
             for (File nestedFile : file.listFiles()) {
-                classes.addAll(findClasses(nestedFile, packageName + '.' + nestedFile.getName()));
+                classes.addAll(findClasses(nestedFile, packageName));
             }
         } else if (file.getName().endsWith(CLASS_SUFFIX)) {
             int endIndex = file.getName().length() - CLASS_SUFFIX.length();
