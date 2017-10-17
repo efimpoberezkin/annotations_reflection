@@ -3,28 +3,18 @@ package com.epam.homework.annotations_reflection.injection;
 import com.epam.homework.annotations_reflection.cache.Cache;
 import com.epam.homework.annotations_reflection.cache.CacheDeclaration;
 import com.epam.homework.annotations_reflection.cache.InjectCache;
-import com.epam.homework.annotations_reflection.cache.caches.CachesPackageAnnotation;
+import com.epam.homework.annotations_reflection.reflection.ClassFinder;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Injector {
 
     public static void inject(Injectable injectee) throws InjectionException, NoCacheFoundException {
 
-        Package[] packages = Package.getPackages();
-        Class[] implementationsOfCache = new Class[]{};
-        for (Package p : packages) {
-            CachesPackageAnnotation annotation = p.getAnnotation(CachesPackageAnnotation.class);
-            if (annotation != null) {
-                implementationsOfCache = annotation.implementationsOfCache();
-            }
-        }
+        List<Class> implementationsOfCache = ClassFinder.find("com.epam.homework.annotations_reflection.cache.caches");
 
         Set<Field> fields = new HashSet(Arrays.asList(injectee.getClass().getFields()));
         fields.addAll(Arrays.asList(injectee.getClass().getDeclaredFields()));
