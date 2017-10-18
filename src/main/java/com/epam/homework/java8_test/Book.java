@@ -2,6 +2,7 @@ package com.epam.homework.java8_test;
 
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Book {
@@ -10,10 +11,10 @@ public class Book {
     private Year yearOfPublication;
     private List<Author> authors;
 
-    public Book(String name, Year yearOfPublication, List<Author> authors) {
+    public Book(String name, Year yearOfPublication, Author... authors) {
         this.name = name;
         this.yearOfPublication = yearOfPublication;
-        this.authors = new ArrayList<>(authors);
+        this.authors = new ArrayList<>(Arrays.asList(authors));
     }
 
     public String getName() {

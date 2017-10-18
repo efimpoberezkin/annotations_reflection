@@ -14,39 +14,16 @@ public class Test {
 
     private static void perform_tests() {
 
-        Author author1 = new Author("Author 1", LocalDate.parse("1980-01-13"), Gender.MALE);
-        Author author2 = new Author("Author 2", LocalDate.parse("1942-05-24"), Gender.FEMALE);
-        Author author3 = new Author("Author 3", LocalDate.parse("1979-12-05"), Gender.FEMALE);
-        Author author4 = new Author("Author 4", LocalDate.parse("1958-08-15"), LocalDate.parse("2012-03-15"), Gender.MALE);
-        Author author5 = new Author("Author 5", LocalDate.parse("1951-03-12"), LocalDate.parse("2016-07-24"), Gender.MALE);
-        Author author6 = new Author("Author 6", LocalDate.parse("1946-09-18"), LocalDate.parse("2014-11-07"), Gender.FEMALE);
-        Author author7 = new Author("Author 7", LocalDate.parse("1953-03-07"), Gender.MALE);
-        Author author8 = new Author("Author 8", LocalDate.parse("1953-04-25"), Gender.FEMALE);
-        Author author9 = new Author("Author 9", LocalDate.parse("1937-01-26"), Gender.MALE);
-        Author author10 = new Author("Author 10", LocalDate.parse("1955-10-15"), LocalDate.parse("2007-12-03"), Gender.FEMALE);
+        List<Author> authors = new ArrayList<>();
+        List<Book> books = new ArrayList<>();
 
-        List<Author> authors = new ArrayList<>(Arrays.asList(
-                author1, author2, author3, author4, author5, author6, author7, author8, author9, author10
-        ));
-
-        List<Book> books = new ArrayList<>(Arrays.asList(
-                new Book("Book 1", Year.of(2015), Arrays.asList(new Author[]{author1})),
-                new Book("Book 2", Year.of(2003), Arrays.asList(new Author[]{author2, author3})),
-                new Book("Book 3", Year.of(2004), Arrays.asList(new Author[]{author4})),
-                new Book("Book 4", Year.of(1985), Arrays.asList(new Author[]{author5})),
-                new Book("Book 5", Year.of(1993), Arrays.asList(new Author[]{author5, author6})),
-                new Book("Book 6", Year.of(1973), Arrays.asList(new Author[]{author7})),
-                new Book("Book 7", Year.of(2007), Arrays.asList(new Author[]{author1, author6, author8})),
-                new Book("Book 8", Year.of(1997), Arrays.asList(new Author[]{author9})),
-                new Book("Book 9", Year.of(2012), Arrays.asList(new Author[]{author10})),
-                new Book("Book 10", Year.of(2009), Arrays.asList(new Author[]{author1, author2}))
-        ));
+        initializeData(authors, books);
 
         System.out.println("-- Authors --");
-        authors.forEach(author -> System.out.println(author));
+        authors.forEach(System.out::println);
 
         System.out.println("\n-- Books --");
-        books.forEach(book -> System.out.println(book));
+        books.forEach(System.out::println);
 
         calculateAverageAuthorAge(authors);
 
@@ -59,6 +36,49 @@ public class Test {
         printAuthorsWhoCooped(authors, books);
 
         printBooksByAuthors(authors, books);
+    }
+
+    private static void initializeData(List<Author> authors, List<Book> books) {
+        Author authorPushkin
+                = new Author("Pushkin", LocalDate.parse("1980-01-13"), Gender.MALE);
+        Author authorLermontov
+                = new Author("Lermontov", LocalDate.parse("1942-05-24"), Gender.FEMALE);
+        Author authorTolstoy
+                = new Author("Tolstoy", LocalDate.parse("1979-12-05"), Gender.FEMALE);
+        Author authorDostoevsky
+                = new Author("Dostoevsky", LocalDate.parse("1958-08-15"), LocalDate.parse("2012-03-15"), Gender.MALE);
+        Author authorGogol
+                = new Author("Gogol", LocalDate.parse("1951-03-12"), LocalDate.parse("2016-07-24"), Gender.MALE);
+        Author authorBulgakov
+                = new Author("Bulgakov", LocalDate.parse("1946-09-18"), LocalDate.parse("2014-11-07"), Gender.FEMALE);
+        Author authorChekhov
+                = new Author("Chekhov", LocalDate.parse("1953-03-07"), Gender.MALE);
+        Author authorTurgenev
+                = new Author("Turgenev", LocalDate.parse("1953-04-25"), Gender.FEMALE);
+        Author authorYesenin
+                = new Author("Yesenin", LocalDate.parse("1937-01-26"), Gender.MALE);
+        Author authorNekrasov
+                = new Author("Nekrasov", LocalDate.parse("1955-10-15"), LocalDate.parse("2007-12-03"), Gender.FEMALE);
+
+        authors.addAll(new ArrayList<>(Arrays.asList(
+                authorPushkin, authorLermontov, authorTolstoy, authorDostoevsky, authorGogol,
+                authorBulgakov, authorChekhov, authorTurgenev, authorYesenin, authorNekrasov
+        )));
+
+
+        books.addAll(
+                new ArrayList<>(Arrays.asList(
+                new Book("Book 1", Year.of(2015), authorPushkin),
+                new Book("Book 2", Year.of(2003), authorLermontov, authorTolstoy),
+                new Book("Book 3", Year.of(2004), authorDostoevsky),
+                new Book("Book 4", Year.of(1985), authorGogol),
+                new Book("Book 5", Year.of(1993), authorGogol, authorBulgakov),
+                new Book("Book 6", Year.of(1973), authorChekhov),
+                new Book("Book 7", Year.of(2007), authorPushkin, authorBulgakov, authorTurgenev),
+                new Book("Book 8", Year.of(1997), authorYesenin),
+                new Book("Book 9", Year.of(2012), authorNekrasov),
+                new Book("Book 10", Year.of(2009), authorPushkin, authorLermontov)
+        )));
     }
 
     private static void calculateAverageAuthorAge(List<Author> authors) {
