@@ -1,6 +1,7 @@
 package com.epam.homework.java8_test;
 
-import java.time.Duration;
+import javafx.util.Pair;
+
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.temporal.ChronoUnit;
@@ -130,9 +131,15 @@ public class Test {
     }
 
     private static void printAgesOfBooks(List<Book> books) {
+        Map<String, Long> agesOfBooksMap =
+                books.stream()
+                        .collect(Collectors.toMap(
+                                Book::getName,
+                                (Book b) -> ChronoUnit.YEARS.between(b.getYearOfPublication(), Year.now()))
+                        );
+
         System.out.println("\n-- Ages of books (in years) --");
-        books.forEach(book -> System.out.println(book.getName() + " - "
-                + ChronoUnit.YEARS.between(book.getYearOfPublication(), Year.now())));
+        agesOfBooksMap.entrySet().forEach(System.out::println);
     }
 
     private static void printAuthorsWhoCooped(List<Book> books) {
@@ -141,12 +148,11 @@ public class Test {
                         .filter(book -> book.getAuthors().size() > 1)
                         .map(Book::getAuthors)
                         .flatMap(Collection::stream)
+                        .distinct()
                         .collect(Collectors.toList());
 
-        Set distinctAuthorsWhoCooped = new HashSet(authorsWhoCooped);
-
         System.out.println("\n-- Authors who cooped with other authors --");
-        distinctAuthorsWhoCooped.forEach(System.out::println);
+        authorsWhoCooped.forEach(System.out::println);
     }
 
     private static void printBooksByAuthors(List<Author> authors, List<Book> books) {
