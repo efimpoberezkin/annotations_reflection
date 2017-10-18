@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.Year;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Test {
@@ -34,7 +35,7 @@ public class Test {
 
         printAgesOfBooks(books);
 
-        printAuthorsWhoCooped(authors, books);
+        printAuthorsWhoCooped(books);
 
         printBooksByAuthors(authors, books);
     }
@@ -70,7 +71,7 @@ public class Test {
         books.addAll(
                 new ArrayList<>(Arrays.asList(
                         new Book("Don Quixote", Year.of(2015), authorCervantes),
-                        new Book("Murder on the Orient Express", Year.of(2003), authorChristie),
+                        new Book("Murder on the Orient Express", Year.of(2003), authorChristie, authorAkhmatova),
                         new Book("War and Peace", Year.of(2004), authorTolstoy),
                         new Book("Hamlet", Year.of(1985), authorShakespeare),
                         new Book("The Odyssey", Year.of(1993), authorHomer),
@@ -84,34 +85,48 @@ public class Test {
 
     private static void calculateAverageAuthorAge(List<Author> authors) {
 
-        double averageAge = authors.stream()
-                .mapToLong(author -> ChronoUnit.YEARS.between(
-                        author.getDateOfBirth(),
-                        author.getDateOfDeath().orElse(LocalDate.now())))
-                .average()
-                .getAsDouble();
+        double averageAge =
+                authors.stream()
+                        .mapToLong(author -> ChronoUnit.YEARS.between(
+                                author.getDateOfBirth(),
+                                author.getDateOfDeath().orElse(LocalDate.now())))
+                        .average()
+                        .getAsDouble();
+
         System.out.println("\n-- Average age of authors --\n" + averageAge);
     }
 
     private static void sortAuthorsByAge(List<Author> authors) {
         List<Author> authorsToSort = new ArrayList<>(authors);
-        authorsToSort.sort(Comparator.comparing(author -> ChronoUnit.DAYS.between(
-                author.getDateOfBirth(),
-                author.getDateOfDeath().orElse(LocalDate.now()))));
+
+        authorsToSort
+                .sort(Comparator.comparing(author -> ChronoUnit.DAYS.between(
+                        author.getDateOfBirth(),
+                        author.getDateOfDeath().orElse(LocalDate.now()))));
+
         System.out.println("\n-- Authors sorted by age, ascending --");
         authorsToSort.forEach(System.out::println);
     }
 
     private static void printRetiredAuthors(List<Author> authors) {
-        List retired = authors.stream().filter(author ->
-                !author.getDateOfDeath().isPresent()
-                        && ((author.getGender() == Gender.MALE
-                        && ChronoUnit.YEARS.between(author.getDateOfBirth(), LocalDate.now()) >= 65)
-                        || (author.getGender() == Gender.FEMALE
-                        && ChronoUnit.YEARS.between(author.getDateOfBirth(), LocalDate.now()) >= 63)))
-                .collect(Collectors.toList());
+        Predicate<Author> maleRetired = author -> (
+                author.getGender() == Gender.MALE
+                        && ChronoUnit.YEARS.between(author.getDateOfBirth(), LocalDate.now()) >= 65
+        );
+
+        Predicate<Author> femaleRetired = author -> (
+                author.getGender() == Gender.FEMALE
+                        && ChronoUnit.YEARS.between(author.getDateOfBirth(), LocalDate.now()) >= 63
+        );
+
+        List retired =
+                authors.stream()
+                        .filter(author -> !author.getDateOfDeath().isPresent())
+                        .filter(maleRetired.or(femaleRetired))
+                        .collect(Collectors.toList());
+
         System.out.println("\n-- Retired authors --");
-        retired.forEach(author -> System.out.println(author));
+        retired.forEach(System.out::println);
     }
 
     private static void printAgesOfBooks(List<Book> books) {
@@ -120,15 +135,18 @@ public class Test {
                 + ChronoUnit.YEARS.between(book.getYearOfPublication(), Year.now())));
     }
 
-    private static void printAuthorsWhoCooped(List<Author> authors, List<Book> books) {
-        List authorsWhoCooped = authors.stream()
-                .filter(author -> !books.stream()
-                        .filter(book -> book.getAuthors().size() > 1 && book.getAuthors().contains(author))
-                        .collect(Collectors.toList())
-                        .isEmpty()
-                ).collect(Collectors.toList());
+    private static void printAuthorsWhoCooped(List<Book> books) {
+        List authorsWhoCooped =
+                books.stream()
+                        .filter(book -> book.getAuthors().size() > 1)
+                        .map(Book::getAuthors)
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toList());
+
+        Set distinctAuthorsWhoCooped = new HashSet(authorsWhoCooped);
+
         System.out.println("\n-- Authors who cooped with other authors --");
-        authorsWhoCooped.forEach(author -> System.out.println(author));
+        distinctAuthorsWhoCooped.forEach(System.out::println);
     }
 
     private static void printBooksByAuthors(List<Author> authors, List<Book> books) {
