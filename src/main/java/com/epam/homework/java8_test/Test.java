@@ -1,7 +1,5 @@
 package com.epam.homework.java8_test;
 
-import javafx.util.Pair;
-
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.temporal.ChronoUnit;
@@ -156,13 +154,21 @@ public class Test {
     }
 
     private static void printBooksByAuthors(List<Author> authors, List<Book> books) {
-        System.out.print("\n-- Books by authors --");
-        authors.forEach(author -> {
-            System.out.print("\n" + author.getName() + " - ");
-            books.stream()
-                    .filter(book -> book.getAuthors().contains(author))
-                    .collect(Collectors.toList())
-                    .forEach(book -> System.out.print(book.getName() + "; "));
-        });
+        Map<String, List<String>> booksByAuthor =
+                books.stream()
+                        .flatMap(book ->
+                                book.getAuthors().stream()
+                                        .map(author ->
+                                                new AbstractMap.SimpleEntry<>(
+                                                        author.getName(),
+                                                        book.getName())))
+                        .collect(Collectors.groupingBy(
+                                Map.Entry::getKey,
+                                Collectors.mapping(
+                                        Map.Entry::getValue,
+                                        Collectors.toList())));
+
+        System.out.println("\n-- Books by authors --");
+        booksByAuthor.entrySet().forEach(System.out::println);
     }
 }
