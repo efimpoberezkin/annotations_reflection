@@ -1,5 +1,6 @@
 package com.epam.homework.java8_test;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.temporal.ChronoUnit;
@@ -94,9 +95,11 @@ public class Test {
 
     private static void sortAuthorsByAge(List<Author> authors) {
         List<Author> authorsToSort = new ArrayList<>(authors);
-        Collections.sort(authorsToSort, (a1, a2) -> a2.getDateOfBirth().compareTo(a1.getDateOfBirth()));
+        authorsToSort.sort(Comparator.comparing(author -> ChronoUnit.DAYS.between(
+                author.getDateOfBirth(),
+                author.getDateOfDeath().orElse(LocalDate.now()))));
         System.out.println("\n-- Authors sorted by age, ascending --");
-        authorsToSort.forEach(author -> System.out.println(author));
+        authorsToSort.forEach(System.out::println);
     }
 
     private static void printRetiredAuthors(List<Author> authors) {
