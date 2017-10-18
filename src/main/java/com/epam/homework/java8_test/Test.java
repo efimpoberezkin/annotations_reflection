@@ -39,51 +39,54 @@ public class Test {
     }
 
     private static void initializeData(List<Author> authors, List<Book> books) {
-        Author authorPushkin
-                = new Author("Pushkin", LocalDate.parse("1980-01-13"), Gender.MALE);
-        Author authorLermontov
-                = new Author("Lermontov", LocalDate.parse("1942-05-24"), Gender.FEMALE);
+        Author authorCervantes
+                = new Author("Cervantes", LocalDate.parse("1980-01-13"), Gender.MALE);
+        Author authorChristie
+                = new Author("Christie", LocalDate.parse("1942-05-24"), Gender.FEMALE);
         Author authorTolstoy
-                = new Author("Tolstoy", LocalDate.parse("1979-12-05"), Gender.FEMALE);
-        Author authorDostoevsky
-                = new Author("Dostoevsky", LocalDate.parse("1958-08-15"), LocalDate.parse("2012-03-15"), Gender.MALE);
-        Author authorGogol
-                = new Author("Gogol", LocalDate.parse("1951-03-12"), LocalDate.parse("2016-07-24"), Gender.MALE);
-        Author authorBulgakov
-                = new Author("Bulgakov", LocalDate.parse("1946-09-18"), LocalDate.parse("2014-11-07"), Gender.FEMALE);
-        Author authorChekhov
-                = new Author("Chekhov", LocalDate.parse("1953-03-07"), Gender.MALE);
-        Author authorTurgenev
-                = new Author("Turgenev", LocalDate.parse("1953-04-25"), Gender.FEMALE);
+                = new Author("Tolstoy", LocalDate.parse("1979-12-05"), Gender.MALE);
+        Author authorShakespeare
+                = new Author("Shakespeare", LocalDate.parse("1958-08-15"), LocalDate.parse("2012-03-15"), Gender.MALE);
+        Author authorHomer
+                = new Author("Homer", LocalDate.parse("1951-03-12"), LocalDate.parse("2016-07-24"), Gender.MALE);
+        Author authorAkhmatova
+                = new Author("Akhmatova", LocalDate.parse("1946-09-18"), LocalDate.parse("2014-11-07"), Gender.FEMALE);
+        Author authorTwain
+                = new Author("Twain", LocalDate.parse("1953-03-07"), Gender.MALE);
+        Author authorTsvetaeva
+                = new Author("Tsvetaeva", LocalDate.parse("1953-04-25"), Gender.FEMALE);
         Author authorYesenin
                 = new Author("Yesenin", LocalDate.parse("1937-01-26"), Gender.MALE);
-        Author authorNekrasov
-                = new Author("Nekrasov", LocalDate.parse("1955-10-15"), LocalDate.parse("2007-12-03"), Gender.FEMALE);
+        Author authorRowling
+                = new Author("Rowling", LocalDate.parse("1955-10-15"), LocalDate.parse("2007-12-03"), Gender.FEMALE);
 
         authors.addAll(new ArrayList<>(Arrays.asList(
-                authorPushkin, authorLermontov, authorTolstoy, authorDostoevsky, authorGogol,
-                authorBulgakov, authorChekhov, authorTurgenev, authorYesenin, authorNekrasov
+                authorCervantes, authorChristie, authorTolstoy, authorShakespeare, authorHomer,
+                authorAkhmatova, authorTwain, authorTsvetaeva, authorYesenin, authorRowling
         )));
 
 
         books.addAll(
                 new ArrayList<>(Arrays.asList(
-                new Book("Book 1", Year.of(2015), authorPushkin),
-                new Book("Book 2", Year.of(2003), authorLermontov, authorTolstoy),
-                new Book("Book 3", Year.of(2004), authorDostoevsky),
-                new Book("Book 4", Year.of(1985), authorGogol),
-                new Book("Book 5", Year.of(1993), authorGogol, authorBulgakov),
-                new Book("Book 6", Year.of(1973), authorChekhov),
-                new Book("Book 7", Year.of(2007), authorPushkin, authorBulgakov, authorTurgenev),
-                new Book("Book 8", Year.of(1997), authorYesenin),
-                new Book("Book 9", Year.of(2012), authorNekrasov),
-                new Book("Book 10", Year.of(2009), authorPushkin, authorLermontov)
-        )));
+                        new Book("Don Quixote", Year.of(2015), authorCervantes),
+                        new Book("Murder on the Orient Express", Year.of(2003), authorChristie),
+                        new Book("War and Peace", Year.of(2004), authorTolstoy),
+                        new Book("Hamlet", Year.of(1985), authorShakespeare),
+                        new Book("The Odyssey", Year.of(1993), authorHomer),
+                        new Book("Poems", Year.of(1973), authorAkhmatova, authorTsvetaeva, authorYesenin),
+                        new Book("The Adventures of Huckleberry Finn", Year.of(2007), authorTwain),
+                        new Book("Harry Potter", Year.of(1997), authorRowling),
+                        new Book("Macbeth", Year.of(2012), authorShakespeare),
+                        new Book("Some random book", Year.of(2009), authorCervantes, authorChristie)
+                )));
     }
 
     private static void calculateAverageAuthorAge(List<Author> authors) {
+
         double averageAge = authors.stream()
-                .mapToLong(author -> ChronoUnit.YEARS.between(author.getDateOfBirth(), LocalDate.now()))
+                .mapToLong(author -> ChronoUnit.YEARS.between(
+                        author.getDateOfBirth(),
+                        author.getDateOfDeath().orElse(LocalDate.now())))
                 .average()
                 .getAsDouble();
         System.out.println("\n-- Average age of authors --\n" + averageAge);
