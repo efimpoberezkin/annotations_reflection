@@ -36,7 +36,7 @@ public class Test {
 
         printAuthorsWhoCooped(books);
 
-        printBooksByAuthors(authors, books);
+        printBooksByAuthors(books);
     }
 
     private static void initializeData(List<Author> authors, List<Book> books) {
@@ -153,7 +153,7 @@ public class Test {
         authorsWhoCooped.forEach(System.out::println);
     }
 
-    private static void printBooksByAuthors(List<Author> authors, List<Book> books) {
+    private static void printBooksByAuthors(List<Book> books) {
         Map<String, List<String>> booksByAuthor =
                 books.stream()
                         .flatMap(book ->
