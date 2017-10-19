@@ -144,8 +144,7 @@ public class Test {
         List authorsWhoCooped =
                 books.stream()
                         .filter(book -> book.getAuthors().size() > 1)
-                        .map(Book::getAuthors)
-                        .flatMap(Collection::stream)
+                        .flatMap(book -> book.getAuthors().stream())
                         .distinct()
                         .collect(Collectors.toList());
 
