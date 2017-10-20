@@ -26,11 +26,9 @@ public class Injector {
                 InjectCache fieldAnnotation = field.getAnnotation(InjectCache.class);
                 Class requiredCacheClass = null;
                 for (Class cl : implementationsOfCache) {
-                    if (cl.isAnnotationPresent(CacheDeclaration.class)) {
-                        CacheDeclaration clAnnotation = (CacheDeclaration) cl.getAnnotation(CacheDeclaration.class);
-                        if (fieldAnnotation.name().equals(clAnnotation.name())) {
-                            requiredCacheClass = cl;
-                        }
+                    CacheDeclaration clAnnotation = (CacheDeclaration) cl.getAnnotation(CacheDeclaration.class);
+                    if (fieldAnnotation.name().equals(clAnnotation.name())) {
+                        requiredCacheClass = cl;
                     }
                 }
                 try {

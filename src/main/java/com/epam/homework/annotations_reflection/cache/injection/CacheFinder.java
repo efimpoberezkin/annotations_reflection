@@ -1,5 +1,7 @@
 package com.epam.homework.annotations_reflection.cache.injection;
 
+import com.epam.homework.annotations_reflection.cache.CacheDeclaration;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -41,7 +43,10 @@ public final class CacheFinder {
                 int endIndex = file.getName().length() - CLASS_SUFFIX.length();
                 String className = file.getName().substring(0, endIndex);
                 String resource = packageName + '.' + className;
-                classes.add(Class.forName(resource));
+                Class cl = Class.forName(resource);
+                if (cl.isAnnotationPresent(CacheDeclaration.class)) {
+                    classes.add(Class.forName(resource));
+                }
             }
         }
         return classes;
