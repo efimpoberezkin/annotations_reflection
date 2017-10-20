@@ -12,7 +12,7 @@ public class Injector {
 
     public static void inject(Injectable injectee) throws InjectionException, NoCacheFoundException {
 
-        List<Class> implementationsOfCache;
+        Map<String, Class> implementationsOfCache;
         try {
             implementationsOfCache = CacheFinder.find(CACHES_PACKAGE);
         } catch (IllegalArgumentException | ClassNotFoundException e) {
@@ -24,20 +24,17 @@ public class Injector {
         for (Field field : fields) {
             if (field.isAnnotationPresent(InjectCache.class)) {
                 InjectCache fieldAnnotation = field.getAnnotation(InjectCache.class);
-                Class requiredCacheClass = null;
-                for (Class cl : implementationsOfCache) {
-                    CacheDeclaration clAnnotation = (CacheDeclaration) cl.getAnnotation(CacheDeclaration.class);
-                    if (fieldAnnotation.name().equals(clAnnotation.name())) {
-                        requiredCacheClass = cl;
-                    }
+                Class requiredCacheClass;
+                if (implementationsOfCache.containsKey(fieldAnnotation.name())) {
+                    requiredCacheClass = implementationsOfCache.get(fieldAnnotation.name());
+                } else {
+                    throw new NoCacheFoundException("Cache " + fieldAnnotation.name() + " not found");
                 }
                 try {
                     Cache cache = (Cache) requiredCacheClass.newInstance();
                     CacheFiller.fillCache(cache);
                     field.setAccessible(true);
                     field.set(injectee, cache);
-                } catch (NullPointerException e) {
-                    throw new NoCacheFoundException("Cache " + fieldAnnotation.name() + " not found", e);
                 } catch (IllegalAccessException | InstantiationException e) {
                     throw new InjectionException("Can not inject cache " + requiredCacheClass.getName(), e);
                 }
