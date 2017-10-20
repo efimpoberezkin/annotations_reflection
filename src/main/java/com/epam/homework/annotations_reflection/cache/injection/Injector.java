@@ -2,7 +2,6 @@ package com.epam.homework.annotations_reflection.cache.injection;
 
 import com.epam.homework.annotations_reflection.cache.Cache;
 import com.epam.homework.annotations_reflection.cache.CacheDeclaration;
-import com.epam.homework.annotations_reflection.reflection.ClassFinder;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -15,7 +14,7 @@ public class Injector {
 
         List<Class> implementationsOfCache;
         try {
-            implementationsOfCache = ClassFinder.find(CACHES_PACKAGE);
+            implementationsOfCache = CacheFinder.find(CACHES_PACKAGE);
         } catch (IllegalArgumentException | ClassNotFoundException e) {
             throw new InjectionException("Unable to get cache classes from package " + CACHES_PACKAGE, e);
         }

@@ -1,4 +1,4 @@
-package com.epam.homework.annotations_reflection.reflection;
+package com.epam.homework.annotations_reflection.cache.injection;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-public final class ClassFinder {
+public final class CacheFinder {
 
     private final static String CLASS_SUFFIX = ".class";
 
