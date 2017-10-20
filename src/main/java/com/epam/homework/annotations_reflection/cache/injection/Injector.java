@@ -1,7 +1,6 @@
 package com.epam.homework.annotations_reflection.cache.injection;
 
 import com.epam.homework.annotations_reflection.cache.Cache;
-import com.epam.homework.annotations_reflection.cache.CacheDeclaration;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -10,15 +9,19 @@ public class Injector {
 
     private static final String CACHES_PACKAGE = "com.epam.homework.annotations_reflection.cache.caches";
 
-    public static void inject(Injectable injectee) throws InjectionException, NoCacheFoundException {
+    private static Map<String, Class> implementationsOfCache = initializeMapOfCaches();
 
-        Map<String, Class> implementationsOfCache;
+    private  static Map<String, Class> initializeMapOfCaches() {
+        Map<String, Class> mapOfCaches;
         try {
-            implementationsOfCache = CacheFinder.find(CACHES_PACKAGE);
+            mapOfCaches = CacheFinder.find(CACHES_PACKAGE);
         } catch (IllegalArgumentException | ClassNotFoundException e) {
             throw new InjectionException("Unable to get cache classes from package " + CACHES_PACKAGE, e);
         }
+        return mapOfCaches;
+    }
 
+    public static void inject(Injectable injectee) throws InjectionException, NoCacheFoundException {
         List<Field> fields = findFields(injectee.getClass());
 
         for (Field field : fields) {

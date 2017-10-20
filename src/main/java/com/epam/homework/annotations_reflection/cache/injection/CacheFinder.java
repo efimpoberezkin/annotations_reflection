@@ -23,21 +23,21 @@ public final class CacheFinder {
         } catch (IOException e) {
             throw new IllegalArgumentException("Unable to get resources from path " + path, e);
         }
-        Map<String, Class> cachesMap = new HashMap<>();
+        Map<String, Class> mapOfCaches = new HashMap<>();
         while (resources.hasMoreElements()) {
             File directory = new File(resources.nextElement().getFile());
-            addCachesFromDirectory(cachesMap, directory, packageName);
+            addCachesFromDirectory(mapOfCaches, directory, packageName);
         }
-        return cachesMap;
+        return mapOfCaches;
     }
 
-    private static void addCachesFromDirectory(Map cachesMap, File directory, String packageName)
+    private static void addCachesFromDirectory(Map mapOfCaches, File directory, String packageName)
             throws ClassNotFoundException {
         if (directory.exists()) {
             File[] files = directory.listFiles();
             for (File file : files) {
                 if (file.isDirectory()) {
-                    addCachesFromDirectory(cachesMap, file, packageName + "." + file.getName());
+                    addCachesFromDirectory(mapOfCaches, file, packageName + "." + file.getName());
                 } else if (file.getName().endsWith(CLASS_SUFFIX)) {
                     int endIndex = file.getName().length() - CLASS_SUFFIX.length();
                     String className = file.getName().substring(0, endIndex);
@@ -46,7 +46,7 @@ public final class CacheFinder {
                     if (cl.isAnnotationPresent(CacheDeclaration.class)) {
                         CacheDeclaration clAnnotation = (CacheDeclaration) cl.getAnnotation(CacheDeclaration.class);
                         String clName = clAnnotation.name();
-                        cachesMap.put(clName, cl);
+                        mapOfCaches.put(clName, cl);
                     }
                 }
             }
