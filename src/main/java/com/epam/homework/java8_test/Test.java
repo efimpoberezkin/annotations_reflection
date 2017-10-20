@@ -96,12 +96,12 @@ public class Test {
     }
 
     private static void sortAuthorsByAge(List<Author> authors) {
-        List<Author> authorsToSort = new ArrayList<>(authors);
-
-        authorsToSort
-                .sort(Comparator.comparing(author -> ChronoUnit.DAYS.between(
-                        author.getDateOfBirth(),
-                        author.getDateOfDeath().orElse(LocalDate.now()))));
+        List<Author> authorsToSort =
+                authors.stream()
+                        .sorted(Comparator.comparing(author -> ChronoUnit.DAYS.between(
+                                author.getDateOfBirth(),
+                                author.getDateOfDeath().orElse(LocalDate.now()))))
+                        .collect(Collectors.toList());
 
         System.out.println("\n-- Authors sorted by age, ascending --");
         authorsToSort.forEach(System.out::println);
