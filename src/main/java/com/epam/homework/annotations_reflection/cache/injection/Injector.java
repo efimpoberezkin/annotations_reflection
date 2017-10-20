@@ -52,7 +52,7 @@ public class Injector {
         List<Field> result = new ArrayList<>();
 
         Class cl = type;
-        while (cl != null && cl != Object.class) {
+        while (cl != Object.class) {
             result.addAll(Arrays.asList(cl.getDeclaredFields()));
             cl = cl.getSuperclass();
         }
